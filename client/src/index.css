@@ -1,0 +1,18 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Georgia, serif;
+  background: #f8f7f4;
+  color: #1a1a18;
+  min-height: 100vh;
+}
+
+#root {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+button, select, input {
+  font-family: inherit;
+}

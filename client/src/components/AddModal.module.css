@@ -1,0 +1,103 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border: 0.5px solid #c8c7be;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 340px;
+  max-width: 90vw;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.error {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #A32D2D;
+  margin-bottom: 0.75rem;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.row label {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888780;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.row input,
+.row select {
+  width: 100%;
+  font-family: Georgia, serif;
+  font-size: 13px;
+  padding: 6px 8px;
+  background: #fff;
+  border: 0.5px solid #c8c7be;
+  border-radius: 8px;
+  color: #1a1a18;
+  outline: none;
+}
+
+.row input:focus,
+.row select:focus {
+  border-color: #888780;
+}
+
+.btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.btns button {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel {
+  background: transparent;
+  border: 0.5px solid #c8c7be;
+  color: #5f5e5a;
+}
+
+.cancel:hover {
+  background: #f0efe9;
+}
+
+.submit {
+  background: #1a1a18;
+  border: none;
+  color: #fff;
+}
+
+.submit:hover {
+  background: #333330;
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
