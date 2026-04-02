@@ -5,14 +5,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
-    "seed": "node db/seed.js",
-    "setup": "node db/createTable.js && node db/seed.js"
+    "dev": "node --watch server.js"
   },
   "dependencies": {
+    "better-sqlite3": "^9.4.3",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^6.0.1"
+    "express": "^4.21.2"
   }
 }
