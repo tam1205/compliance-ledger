@@ -1,53 +1,59 @@
-import { useState, useEffect, useCallback } from 'react'
-import { fetchTransactions, createTransaction } from './hooks/api.js'
-import SummaryChart from './components/SummaryChart.jsx'
-import TransactionTable from './components/TransactionTable.jsx'
-import AddModal from './components/AddModal.jsx'
-import styles from './App.module.css'
+import { useState, useEffect, useCallback } from "react";
+import { fetchTransactions, createTransaction } from "./hooks/api.js";
+import SummaryChart from "./components/SummaryChart.jsx";
+import TransactionTable from "./components/TransactionTable.jsx";
+import AddModal from "./components/AddModal.jsx";
+import styles from "./App.module.css";
 
 export default function App() {
-  const [rows, setRows] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
-  const [showModal, setShowModal] = useState(false)
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  const [filterStatus, setFilterStatus] = useState('all')
-  const [filterRisk, setFilterRisk] = useState('all')
-  const [search, setSearch] = useState('')
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterRisk, setFilterRisk] = useState("all");
+  const [search, setSearch] = useState("");
 
   const load = useCallback(async () => {
-    setLoading(true)
-    setError('')
+    setLoading(true);
+    setError("");
     try {
-      const data = await fetchTransactions({ status: filterStatus, risk: filterRisk, search })
-      setRows(data)
+      const data = await fetchTransactions({
+        status: filterStatus,
+        risk: filterRisk,
+        search,
+      });
+      setRows(data);
     } catch {
-      setError('Could not load transactions. Is the server running?')
+      setError("Could not load transactions. Is the server running?");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [filterStatus, filterRisk, search])
+  }, [filterStatus, filterRisk, search]);
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const handleAdd = async (formData) => {
-    setSaving(true)
+    setSaving(true);
     try {
-      await createTransaction(formData)
-      setShowModal(false)
-      await load()
+      await createTransaction(formData);
+      setShowModal(false);
+      await load();
     } catch {
-      setError('Failed to save transaction.')
+      setError("Failed to save transaction.");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
-  const flagged  = rows.filter(r => r.status === 'flagged').length
-  const highRisk = rows.filter(r => r.risk === 'high').length
-  const inReview = rows.filter(r => r.status === 'review').length
-  const totalVol = rows.reduce((a, r) => a + Number(r.amount), 0)
+  const flagged = rows.filter((r) => r.status === "flagged").length;
+  const highRisk = rows.filter((r) => r.risk === "high").length;
+  const inReview = rows.filter((r) => r.status === "review").length;
+  const totalVol = rows.reduce((a, r) => a + Number(r.amount), 0);
 
   return (
     <div>
@@ -86,15 +92,25 @@ export default function App() {
       <SummaryChart rows={rows} />
 
       <div className={styles.toolbar}>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-          {['all', 'flagged', 'review', 'cleared', 'pending'].map(s => (
-            <option key={s} value={s}>{s === 'all' ? 'All statuses' : s}</option>
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
+          {["all", "flagged", "review", "cleared", "pending"].map((s) => (
+            <option key={s} value={s}>
+              {s === "all" ? "All statuses" : s}
+            </option>
           ))}
         </select>
 
-        <select value={filterRisk} onChange={e => setFilterRisk(e.target.value)}>
-          {['all', 'high', 'medium', 'low'].map(r => (
-            <option key={r} value={r}>{r === 'all' ? 'All risk levels' : r}</option>
+        <select
+          value={filterRisk}
+          onChange={(e) => setFilterRisk(e.target.value)}
+        >
+          {["all", "high", "medium", "low"].map((r) => (
+            <option key={r} value={r}>
+              {r === "all" ? "All risk levels" : r}
+            </option>
           ))}
         </select>
 
@@ -102,7 +118,7 @@ export default function App() {
           type="text"
           placeholder="Search entity / ID"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           className={styles.searchInput}
         />
 
@@ -113,10 +129,13 @@ export default function App() {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      {loading
-        ? <p className={styles.loading}>Loading…</p>
-        : <TransactionTable rows={rows} />
-      }
+      {loading ? (
+        <p className={styles.loading}>
+          Loading — the API may take up to 30 seconds to wake up on first visit.
+        </p>
+      ) : (
+        <TransactionTable rows={rows} />
+      )}
     </div>
-  )
+  );
 }
